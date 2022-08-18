@@ -1,25 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import DropFileInput from './components/drop-file-input/DropFileInput';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const onFileChange = (files) => {
+        console.log(files);
+    };
+    return (
+        <div className="box">
+            <h2 className="header">Drag & Drop using React</h2>
+            <DropFileInput onFileChange={(files) => onFileChange(files)} />
+        </div>
+    );
 }
 
 export default App;
