@@ -1,14 +1,12 @@
 .drop-file-input {
     position: relative;
-    width: 400px;
+    width: 700px;
     height: 200px;
     border: 2px dashed var(--border-color);
     border-radius: 20px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     background-color: var(--input-bg);
 }
 
@@ -90,4 +88,8 @@
 
 .drop-file-preview__item:hover .drop-file-preview__item__del {
     opacity: 1;
+}
+
+.imagePreview{
+  width:4vmax ;
 }
