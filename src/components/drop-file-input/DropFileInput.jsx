@@ -59,10 +59,10 @@ const DropFileInput = (props) => {
             return;
         }
         const objectUrlArr = [];
-        newFile.map((item) => {
-            const objectUrl = URL.createObjectURL(item);
+        for (let i = 0; i < newFile.length; i++) {
+            const objectUrl = URL.createObjectURL(newFile[i]);
             objectUrlArr.push(objectUrl);
-        });
+        }
         setPreview(objectUrlArr);
         // return () => URL.revokeObjectURL(objectUrl);
     }, [newFile]);
