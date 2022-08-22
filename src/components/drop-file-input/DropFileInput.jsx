@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './DropFileInput.css';
-// import { ImageConfig } from '../../config/imageConfig';
-// import PropTypes from 'prop-types';
-import { Button, Row } from 'react-bootstrap';
+import { Button, Row, ProgressBar } from 'react-bootstrap';
 
 const DropFileInput = (props) => {
     const wrapperRef = useRef(null);
     const [fileList, setFileList] = useState([]);
     const [newFile, setNewfile] = useState([]);
     const [preview, setPreview] = useState([]);
+    const [prog, setProg] = useState();
+    const [now, setNow] = useState(0);
+    const [uploadAll, setUploadAll] = useState(false);
     const onDragEnter = () => {
         wrapperRef.current.classList.add('dragover');
     };
@@ -23,23 +24,39 @@ const DropFileInput = (props) => {
         // console.log([...newFile, ...e.target.files]);
     };
     const uploadClick = (e) => {
-        if (newFile.length > 0) {
-            const updatedList = [...fileList, ...newFile];
-            setFileList(updatedList);
-            props.onFileChange(updatedList);
-        } else {
-            alert('Click Upload Button after selecting file');
-        }
-        setNewfile([]);
+        setTimeout(() => {
+            if (newFile.length > 0) {
+                const updatedList = [...fileList, ...newFile];
+                setFileList(updatedList);
+                props.onFileChange(updatedList);
+            } else {
+                alert('Click Upload All Button after selecting file');
+            }
+            setNewfile([]);
+        }, 1000);
+        setUploadAll(true);
     };
     const singleUpload = (item) => {
         console.log(item);
+        progress(item);
         setTimeout(() => {
             const updatedList = [...fileList, item];
             setFileList(updatedList);
             props.onFileChange(updatedList);
             setNewfile(newFile.filter((i) => i !== item));
         }, 1000);
+    };
+
+    const progress = (item) => {
+        setProg(item);
+        // console.log(item);
+        let val = 0;
+        setNow(0);
+        while (val <= 100) {
+            setNow(val);
+            val += 10;
+            console.log(val);
+        }
     };
     const singleRemove = (item) => {
         // console.log(item);
@@ -91,7 +108,7 @@ const DropFileInput = (props) => {
                         return (
                             <div
                                 key={index}
-                                className="d-flex justify-content-between"
+                                className="d-flex justify-content-between my-1"
                             >
                                 <div className="d-flex justify-content-between">
                                     <div className="d-flex flex-row">
@@ -111,12 +128,45 @@ const DropFileInput = (props) => {
                                         />
                                     </div>
                                 </div>
-                                <div>
-                                    <progress
-                                        className="mx-2"
-                                        value="0"
-                                        max="100"
-                                    ></progress>
+                                <div className="d-flex flex-row">
+                                    {uploadAll ? (
+                                        <ProgressBar
+                                            animated
+                                            className="mx-2 progressBar"
+                                            variant="success"
+                                            now={now}
+                                            label={`${now} %`}
+                                        />
+                                    ) : (
+                                        ''
+                                    )}
+                                    {prog === item ? (
+                                        <ProgressBar
+                                            animated
+                                            className="mx-2 progressBar"
+                                            variant="success"
+                                            now={now}
+                                            label={`${now} %`}
+                                        />
+                                    ) : (
+                                        ''
+                                        // <ProgressBar
+                                        //     className="mx-2 progressBar notActive"
+                                        //     variant="success"
+                                        //     now={0}
+                                        //     label={0}
+                                        // />
+                                    )}
+                                    {!uploadAll && prog !== item ? (
+                                        <ProgressBar
+                                            className="mx-2 progressBar notActive"
+                                            variant="success"
+                                            now={0}
+                                            label={0}
+                                        />
+                                    ) : (
+                                        ''
+                                    )}
                                     <Button onClick={() => singleRemove(item)}>
                                         <i className="fa-solid fa-trash" />
                                     </Button>

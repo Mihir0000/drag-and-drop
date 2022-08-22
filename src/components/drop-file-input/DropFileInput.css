@@ -90,6 +90,16 @@
     opacity: 1;
 }
 
-.imagePreview{
-  width:4vmax ;
+.imagePreview {
+    width: 4vmax;
+}
+
+.progressBar {
+    width: 15vmax;
+    outline: 1px solid blue;
+    align-self: center;
+}
+
+.notActive {
+    --bs-progress-bar-transition: none !important;
 }
